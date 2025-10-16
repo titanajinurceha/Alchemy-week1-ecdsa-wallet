@@ -27,7 +27,6 @@ Runs on: http://localhost:5173
 
 ### 2️⃣ Server Setup
 ```bash
-Copy code
 cd server
 npm install
 npm run start
@@ -38,24 +37,26 @@ Server runs by default on port 3042.
 
 ## 🧩 Key Functionalities
 ### 🔑 Generate Private & Public Keys
-> [!TIP] 
-> Initial Address:
-> Account 1:
+> [!TIP]
+> **Initial Addresses**
+>
+> ```text
+> Account 1
 > Private Key: 2ad56c543b04daaa67924da294195941f5fc74e1fc14ee1427e9cbd4c2b8fbde
-> Address: 0x51099dd07d6fc0b94c8d6741da7ec649b69bf513
-> 
-> Account 2:
+> Address:     0x51099dd07d6fc0b94c8d6741da7ec649b69bf513
+>
+> Account 2
 > Private Key: bba77a7e9d138aa65e9f9280974c37d33ca099f2ec0b719aecec92758dc96f34
-> Address: 0x4ec7c3ac1d18c168e357da033f78fec379ec5c1c
-> 
-> Account 3:
+> Address:     0x4ec7c3ac1d18c168e357da033f78fec379ec5c1c
+>
+> Account 3
 > Private Key: d7b1df948e16d41ff29a22961871c19b2d86261f0800ecbd5604f9040aedb9bb
-> Address: 0x10134530ad55a5e0d0c8f59cd083dfc4455b16d9
+> Address:     0x10134530ad55a5e0d0c8f59cd083dfc4455b16d9
+> ```
 
 You can use this Node.js script to generate a new ECDSA key pair:
 
 ```js
-Copy code
 const secp = require("ethereum-cryptography/secp256k1");
 const { toHex } = require("ethereum-cryptography/utils");
 
@@ -96,7 +97,6 @@ const isValid = secp.verify(signature, hash, publicKey);
 
 ## 📁 Project Structure
 ```bash
-Copy code
 ecdsa-node/
 │
 ├── client/   # React + Vite frontend
@@ -104,9 +104,9 @@ ecdsa-node/
 └── README.md
 ```
 ## 👨‍💻 Author
-Titan Aji Nurceha
-Developed as part of Alchemy University’s Web3 Developer Path.
-Focused on secure digital signatures using the ethereum-cryptography library.
+**Titan Aji Nurceha**  
+Developed as part of *Alchemy University’s Web3 Developer Path*.<br>
+Focused on secure digital signatures using the **ethereum-cryptography** library.
 
 ## 🧠 References & Original Course Documentation
 This project builds upon the official Alchemy ECDSA Project.
