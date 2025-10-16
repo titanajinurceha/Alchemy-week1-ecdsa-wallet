@@ -1,17 +1,118 @@
-# ADDRESS |
+# 🔐 ECDSA Wallet Web App
 
-Account 1:
-Private Key: 2ad56c543b04daaa67924da294195941f5fc74e1fc14ee1427e9cbd4c2b8fbde
-Address: 0x51099dd07d6fc0b94c8d6741da7ec649b69bf513
+A client–server web application demonstrating secure fund transfers using **Elliptic Curve Digital Signatures (ECDSA)**.  
+Originally based on the [Alchemy University](https://university.alchemy.com/) ECDSA course — this version has been enhanced with better structure, additional explanations, and key generation examples.
 
-Account 2:
-Private Key: bba77a7e9d138aa65e9f9280974c37d33ca099f2ec0b719aecec92758dc96f34
-Address: 0x4ec7c3ac1d18c168e357da033f78fec379ec5c1c
+---
 
-Account 3:
-Private Key: d7b1df948e16d41ff29a22961871c19b2d86261f0800ecbd5604f9040aedb9bb
-Address: 0x10134530ad55a5e0d0c8f59cd083dfc4455b16d9
+## 🚀 Features
 
+- Generate new private–public key pairs  
+- Create and sign transactions on the client side  
+- Verify signatures securely on the server  
+- Prevent unauthorized transactions  
+- Real-time balance updates  
+
+---
+
+## ⚙️ Getting Started
+
+### 1️⃣ Client Setup
+```bash
+cd client
+npm install
+npm run dev
+Runs on: http://localhost:5173
+```
+
+### 2️⃣ Server Setup
+```bash
+Copy code
+cd server
+npm install
+npm run start
+```
+Server runs by default on port 3042.
+
+> 💡 You can also use npm i -g nodemon then nodemon index to restart automatically on file changes.
+
+## 🧩 Key Functionalities
+### 🔑 Generate Private & Public Keys
+> [!TIP] 
+> Initial Address:
+> Account 1:
+> Private Key: 2ad56c543b04daaa67924da294195941f5fc74e1fc14ee1427e9cbd4c2b8fbde
+> Address: 0x51099dd07d6fc0b94c8d6741da7ec649b69bf513
+> 
+> Account 2:
+> Private Key: bba77a7e9d138aa65e9f9280974c37d33ca099f2ec0b719aecec92758dc96f34
+> Address: 0x4ec7c3ac1d18c168e357da033f78fec379ec5c1c
+> 
+> Account 3:
+> Private Key: d7b1df948e16d41ff29a22961871c19b2d86261f0800ecbd5604f9040aedb9bb
+> Address: 0x10134530ad55a5e0d0c8f59cd083dfc4455b16d9
+
+You can use this Node.js script to generate a new ECDSA key pair:
+
+```js
+Copy code
+const secp = require("ethereum-cryptography/secp256k1");
+const { toHex } = require("ethereum-cryptography/utils");
+
+const privateKey = secp.utils.randomPrivateKey();
+const publicKey = secp.getPublicKey(privateKey);
+
+console.log("Private key:", toHex(privateKey));
+console.log("Public key:", toHex(publicKey));
+```
+### ✍️ Sign a Transaction
+When sending a transaction, the client:
+
+- Hashes the message
+- Signs it using the private key
+- Sends both the signature and recovery bit to the server
+
+Example:
+
+```js
+const hashMessage = (msg) => keccak256(utf8ToBytes(msg));
+const [signature, recoveryBit] = await secp.sign(hashMessage(msg), privateKey, { recovered: true });
+```
+### ✅ Verify on the Server
+The server:
+- Recovers the public key from the signature
+- Validates that it matches the sender’s address
+- Executes the transaction only if valid
+
+Example:
+
+```js
+const isValid = secp.verify(signature, hash, publicKey);
+```
+### 🔒 Security Notes
+1. Private keys never leave the client side.
+2. Each transaction is cryptographically signed before being sent.
+3. The server verifies ownership before approving fund transfers.
+
+## 📁 Project Structure
+```bash
+Copy code
+ecdsa-node/
+│
+├── client/   # React + Vite frontend
+├── server/   # Express backend
+└── README.md
+```
+## 👨‍💻 Author
+Titan Aji Nurceha
+Developed as part of Alchemy University’s Web3 Developer Path.
+Focused on secure digital signatures using the ethereum-cryptography library.
+
+## 🧠 References & Original Course Documentation
+This project builds upon the official Alchemy ECDSA Project.
+You can view the original instructions and setup details below 👇
+
+<details> <summary>📜 View Original Course README</summary>
 ## Project 1: Build a Web App using ECDSA
 
 This project is an example of using a client and server to facilitate transfers between different addresses. Since there is just a single server on the back-end handling transfers, this is clearly very centralized. We won't worry about distributed consensus for this project.
@@ -138,3 +239,16 @@ To pass **Phase 3**:
 ## Sample Solution
 
 Want to peek at a solution while you craft your own? Check [this repo](https://github.com/AlvaroLuken/exchange-secp256k1) out.
+</details>
+
+## 🧩 Tech Stack
+- Frontend: React + Vite
+- Backend: Node.js + Express
+- Cryptography: Ethereum-cryptography (secp256k1)
+- Language: JavaScript (ES Modules)
+
+## 🧭 Summary
+This project demonstrates:
+- Understanding of public–private key cryptography
+- Implementation of digital signatures (ECDSA)
+- Building a secure client–server architecture for fund transfers
